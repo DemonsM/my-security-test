@@ -1,5 +1,7 @@
-//package com.ink.security.service;
-//
-//public interface LoginService {
-//    void login(String username,String password);
-//}
+package com.ink.security.service;
+
+import java.util.Map;
+
+public interface LoginService {
+    Map<String, String> login(String username, String password);
+}

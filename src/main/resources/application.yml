@@ -12,3 +12,7 @@ spring:
     password: 123456
 mybatis:
   mapper-locations: classpath:mapperxml/*Mapper.xml
+
+logging:
+  level:
+    com.ink.security.mapper: debug
