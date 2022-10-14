@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -29,10 +30,19 @@ public class LoginServiceImpl implements LoginService {
         }
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         String userId = String.valueOf(loginUser.getSysUser().getId());
-        redisCache.setCacheObject("login: " + userId, loginUser);
+        redisCache.setCacheObject("login:" + userId, loginUser);
         String jwt = JwtUtil.createJWT(userId);
         Map<String, String> map = new HashMap<>();
         map.put("token", jwt);
         return map;
+    }
+
+    @Override
+    public Boolean logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        Long userId = loginUser.getSysUser().getId();
+        redisCache.deleteObject("login:" + userId);
+        return Boolean.TRUE;
     }
 }

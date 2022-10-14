@@ -22,6 +22,12 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseResult<?> login(String username, String password) {
         Map<String, String> loginRes = loginService.login(username, password);
-        return new ResponseResult<>(200, loginRes);
+        return new ResponseResult<>(200, "登录成功", loginRes);
+    }
+
+    @GetMapping("/log-out")
+    public ResponseResult<?> logout() {
+        Boolean logout = loginService.logout();
+        return new ResponseResult<>(200, "退出登录", logout);
     }
 }
