@@ -3,6 +3,7 @@ package com.ink.security.controller;
 import com.ink.security.bean.ResponseResult;
 import com.ink.security.service.LoginService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class LoginController {
     private final LoginService loginService;
 
+    @PreAuthorize("hasAnyAuthority('admin','test1')")
     @GetMapping("/hello")
     public String test() {
         return "Hello";
